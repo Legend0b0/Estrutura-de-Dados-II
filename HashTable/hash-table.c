@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define SIZE 3
+#define SIZE 9
 
 struct Data
 {
