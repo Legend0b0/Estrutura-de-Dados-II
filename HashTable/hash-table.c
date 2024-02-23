@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #define SIZE 9
 
@@ -9,6 +10,7 @@ struct Data
   char* name;
   int key;
   struct Data* next;
+
 };
 
 int hash_code(int key)
@@ -22,7 +24,7 @@ int hash(char* name)
 
   for(int i = 0; name[i] != '\0'; i++)
   {
-    key = name[i] * (i+1);
+    key += name[i] * (i+1);
   }
 
   return(key);
@@ -199,7 +201,7 @@ main()
         char name[30];
         
         printf("\nDigite o nome a ser inserido na tabela\n\n");
-        scanf("%s", name);
+        scanf(" %s", name);
 
         insert(hashtable, name);
 
@@ -211,7 +213,7 @@ main()
         char name[30];
 
         printf("\nDigite o nome a ser procurado na tabela\n\n");
-        scanf("%s", name);
+        scanf(" %s", name);
 
         int index = search(hashtable, name);
 
@@ -232,7 +234,7 @@ main()
         char name[30];
 
         printf("\nDigite o nome a ser procurado na tabela\n\n");
-        scanf("%s", name);
+        scanf(" %s", name);
        
         delete(hashtable, name);
 
