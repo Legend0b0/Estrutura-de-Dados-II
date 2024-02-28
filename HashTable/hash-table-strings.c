@@ -6,10 +6,11 @@
 // Exercicio
 // Fazer com os 3 metodos de hash, deslocamento
 
-// Fazer uma pilha para evitar os null
-
-#define SIZE 11
+#define SIZE 16
+#define L 4
+#define W 32
 #define PRIME_CONST 31
+#define A ((sqrt(5)/2) - 1)
 
 struct Data
 {
@@ -34,12 +35,22 @@ struct Data** createTable()
   return(hashtable);
 }
 
-int hash_code(unsigned long long int key)
+int division_func(unsigned long long int key)
 {
   return(key % SIZE);
 }
 
-unsigned long long int hash(char* name)
+int multiply_func(unsigned long long int key)
+{
+  return(SIZE * ((key * A) - (unsigned long long int)(key * A)));
+}
+
+int multiply_shift_func(unsigned long long int key)
+{
+  return(((unsigned long long int)(key * (pow(2, W) * A)) % (unsigned int)(pow(2, W))) >> (W - L));
+}
+
+unsigned long long int calc_key(char* name)
 {
   unsigned long long int key = 0;
   
@@ -54,32 +65,34 @@ unsigned long long int hash(char* name)
 void insert(struct Data** hashtable, char* name)
 {
   struct Data* aux = (struct Data*)malloc(sizeof(struct Data));
-  aux->key = hash(name);
+  aux->key = calc_key(name);
   aux->name = (char*)malloc(strlen(name)*sizeof(char));
 
   strcpy(aux->name, name);
 
-  if(hashtable[hash_code(aux->key)] != NULL)
+  printf("\n\n%d\n\n", multiply_shift_func(aux->key));
+
+  if(hashtable[multiply_shift_func(aux->key)] != NULL)
   {
-    aux->next = hashtable[hash_code(aux->key)];
-    hashtable[hash_code(aux->key)]->prev = aux;
+    aux->next = hashtable[multiply_shift_func(aux->key)];
+    hashtable[multiply_shift_func(aux->key)]->prev = aux;
   }
   else
   {
     aux->next = NULL;
   }
   
-  hashtable[hash_code(aux->key)] = aux;
-  hashtable[hash_code(aux->key)]->prev = NULL;
+  hashtable[multiply_shift_func(aux->key)] = aux;
+  hashtable[multiply_shift_func(aux->key)]->prev = NULL;
 }
 
 struct Data* search(struct Data** hashtable, char* name)
 {
-  struct Data* aux = hashtable[hash_code(hash(name))];
+  struct Data* aux = hashtable[multiply_shift_func(calc_key(name))];
 
   while(aux != NULL)
   {
-    if(aux->key == hash(name))
+    if(aux->key == calc_key(name))
     {
       return(aux);
     }
@@ -109,7 +122,7 @@ void delete(struct Data** hashtable, struct Data* aux)
 
   if((aux->prev == NULL) && (aux->next == NULL))
   {
-    hashtable[hash_code(aux->key)] = NULL;
+    hashtable[multiply_shift_func(aux->key)] = NULL;
    
     delete_data(aux);
 
@@ -129,7 +142,7 @@ void delete(struct Data** hashtable, struct Data* aux)
   {
     aux->next->prev = NULL;
 
-    hashtable[hash_code(aux->key)] = aux->next;
+    hashtable[multiply_shift_func(aux->key)] = aux->next;
 
     delete_data(aux);
 
@@ -246,7 +259,7 @@ main()
 
         if(aux != NULL)
         {
-          printf("\nIndex - %d\n", hash_code(aux->key));
+          printf("\nIndex - %d\n", multiply_shift_func(aux->key));
         }
         else
         {
