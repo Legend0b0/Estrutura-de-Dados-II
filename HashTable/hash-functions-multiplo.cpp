@@ -111,7 +111,7 @@ int main()
 
   for(int i = 0; i < SIZE; i++)
   {
-    insert(hashtable, i, fp, &count);
+    insert(hashtable, i * PRIME_CONST, fp, &count);
   }
 
   end = std::chrono::system_clock::now();
@@ -135,7 +135,7 @@ int main()
 
   for(int i = 0; i < SIZE; i++)
   {
-    insert(hashtable, i, fp, &count);
+    insert(hashtable, i * PRIME_CONST, fp, &count);
   }
 
   end = std::chrono::system_clock::now();
@@ -159,7 +159,7 @@ int main()
 
   for(int i = 0; i < SIZE; i++)
   {
-    insert(hashtable, i, fp, &count);
+    insert(hashtable, i * PRIME_CONST, fp, &count);
   }
 
   end = std::chrono::system_clock::now();
