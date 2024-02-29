@@ -16,6 +16,18 @@ struct Data
   int key;
 };
 
+int* create_array()
+{
+  int* a = (int *)malloc(SIZE*sizeof(int));
+
+  for(int i = 0; i < SIZE; i++)
+  {
+    a[i] = rand();
+  }
+
+  return(a);
+}
+
 struct Data** createTable()
 {
   struct Data** hashtable = (struct Data**)calloc(SIZE, sizeof(struct Data*));
@@ -91,6 +103,8 @@ void destroy_table(struct Data **hashtable)
 
 int main()
 {
+  srand(time(NULL));
+
   int count;
 
   int (*fp)(int);
@@ -99,6 +113,8 @@ int main()
   
   std::chrono::time_point<std::chrono::system_clock> start, end;
 
+  int* a = create_array();
+  
 
 //  Division func
   hashtable = createTable();
@@ -111,7 +127,7 @@ int main()
 
   for(int i = 0; i < SIZE; i++)
   {
-    insert(hashtable, i, fp, &count);
+    insert(hashtable, a[i], fp, &count);
   }
 
   end = std::chrono::system_clock::now();
@@ -135,7 +151,7 @@ int main()
 
   for(int i = 0; i < SIZE; i++)
   {
-    insert(hashtable, i, fp, &count);
+    insert(hashtable, a[i], fp, &count);
   }
 
   end = std::chrono::system_clock::now();
@@ -159,7 +175,7 @@ int main()
 
   for(int i = 0; i < SIZE; i++)
   {
-    insert(hashtable, i, fp, &count);
+    insert(hashtable, a[i], fp, &count);
   }
 
   end = std::chrono::system_clock::now();

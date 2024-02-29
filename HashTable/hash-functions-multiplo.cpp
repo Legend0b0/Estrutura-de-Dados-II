@@ -35,7 +35,7 @@ int multiply_func(int key)
 
 int multiply_shift_func(int key)
 {
-  long long int doisW = pow(2, W);    //2 elevado a w bits
+  long long int doisW = pow(2, W);
   long long int a = A * doisW;    
   long long int resto = (key * a) % doisW;
   
