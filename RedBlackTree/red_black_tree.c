@@ -561,8 +561,9 @@ main()
     printf("Altura preta: %d\n", black_height(aux));
     aux = aux->left;
   }
-
+  
   free_tree(tree);
 
   return(0);
 }
+
